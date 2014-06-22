@@ -23,6 +23,7 @@ Create a yaml config file with the following content:
 email: <craigslist login>
 password: <craigslist password>
 notify: <comma separated list of emails>
+no_success_mail: <1|0>
 postings: # for expiration notification only
   - title: My post
     area: nyc

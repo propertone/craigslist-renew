@@ -84,7 +84,7 @@ foreach my $form_id (@forms) {
             $link = $l[0]->attr('href');
         }
 
-        notify("Renewed \"$title\" (" . $link . ")");
+        notify("Renewed \"$title\" (" . $link . ")") unless $config->{'no_success_mail'};
         $renewed++;
     }
     else {
