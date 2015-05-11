@@ -12,6 +12,7 @@ Only perl is necessary plus the following non-default modules, which you can dow
 * `HTML::TableExtract`
 * `YAML`
 * `List::MoreUtils`
+* `File::Slurp`
 
 
 Usage
@@ -20,11 +21,24 @@ Usage
 Create a yaml config file with the following content:
 ```
 ---
+#
+# Required parameters
+#
 email: <craigslist login>
 password: <craigslist password>
 notify: <comma separated list of emails>
+#
+# Optional parameters
+#
+# set to 1 to suppress notification emails on renewal
 no_success_mail: <1|0>
-postings: # for expiration notification only
+# set to 1 to renew all posts available for renewal
+# By default, only the first expired post gets renewed on each run
+renew_all: <1|0>
+# specify path for logging actions taken
+logfile: <path-to-logfile>
+# specify the list of your current postings for expiration notifications
+postings:
   - title: My post
     area: nyc
   - title: Another post

@@ -93,9 +93,8 @@ foreach my $form_id (@forms) {
     }
     $mech->back();
 
-    # only renew the first one
-    # comment out the next line to renew all posts
-    last;
+    # only renew the first posting unless renew_all is specified
+    last unless $config->{renew_all};
 }
 
 # print message in interactive mode or send email when run from cron
