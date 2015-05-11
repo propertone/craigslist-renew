@@ -16,6 +16,7 @@ use HTML::TableExtract;
 use Getopt::Long;
 use YAML qw( LoadFile );
 use List::MoreUtils qw( zip );
+use File::Slurp qw( append_file );
 
 my $mech = WWW::Mechanize->new();
 my $renewed = 0;
@@ -110,6 +111,13 @@ sub notify {
                     Data    => $message,
                     );
         $msg->send;
+    }
+    # append to log, if specified
+    if ($config->{logfile}) {
+        my $ts = scalar localtime;
+        my $email = $config->{email};
+        my $line = "[$ts] $email: $message\n";
+        append_file($config->{logfile}, $line);
     }
 }
 
