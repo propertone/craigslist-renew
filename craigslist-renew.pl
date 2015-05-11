@@ -142,9 +142,6 @@ sub check_expired {
                 }
             }
         }
-        else {
-            last;
-        }
     }
     my @expired = ();
     foreach my $posting (@$required) {
