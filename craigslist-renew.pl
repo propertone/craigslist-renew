@@ -76,7 +76,7 @@ foreach my $form_id (@forms) {
         # fetch the title and link of the confirmation page
         my $title=""; my $link="";
         my $root = HTML::TreeBuilder->new_from_content($mech->content());
-        my @t = $root->look_down('_tag' => 'h2', 'class' => 'postingtitle');
+        my @t = $root->look_down('_tag' => 'span', 'class' => 'postingtitletext');
         my @l = $root->look_down('_tag' => 'div', 'class' => 'managestatus')->look_down('_tag' => 'a', 'target' => '_blank');
         if (@t) {
             $title = $t[0]->as_trimmed_text();
@@ -85,7 +85,7 @@ foreach my $form_id (@forms) {
             $link = $l[0]->attr('href');
         }
 
-        notify("Renewed \"$title\" (" . $link . ")") unless $config->{'no_success_mail'};
+        notify("Renewed \"$title\" (" . $link . ")");
         $renewed++;
     }
     else {
@@ -100,23 +100,25 @@ foreach my $form_id (@forms) {
 # print message in interactive mode or send email when run from cron
 sub notify {
     my $message = shift @_;
-    if (-t STDIN) {
-        print "$message\n";
-    }
-    else {
-        my $msg = MIME::Lite->new(
-                    To      => $NOTIFY,
-                    Subject => $SUBJECT,
-                    Data    => $message,
-                    );
-        $msg->send;
-    }
+
     # append to log, if specified
     if ($config->{logfile}) {
         my $ts = scalar localtime;
         my $email = $config->{email};
         my $line = "[$ts] $email: $message\n";
         append_file($config->{logfile}, $line);
+    }
+
+    if (-t STDIN) {
+        print "$message\n";
+    }
+    elsif (!$config->{'no_success_mail'} || $check_expired) {
+        my $msg = MIME::Lite->new(
+                    To      => $NOTIFY,
+                    Subject => $SUBJECT,
+                    Data    => $message,
+                    );
+        $msg->send;
     }
 }
 
