@@ -106,7 +106,7 @@ sub notify {
         my $ts = scalar localtime;
         my $email = $config->{email};
         my $line = "[$ts] $email: $message\n";
-        append_file($config->{logfile}, $line);
+        append_file($config->{logfile}, {binmode => ':utf8' }, $line);
     }
 
     if (-t STDIN) {
