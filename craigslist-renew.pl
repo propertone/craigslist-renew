@@ -48,6 +48,9 @@ if ($mech->form_with_fields('inputEmailHandle', 'inputPassword')) {
 }
 $mech->quiet(0);
 
+# filter active posts only
+$mech->follow_link(text=>"active");
+
 # if --expired flag was specified, check for expired posts
 if ($check_expired) {
     $SUBJECT = "Craigslist post expired";
@@ -55,47 +58,65 @@ if ($check_expired) {
     exit(0);
 }
 
-# look for all listings with a renew button
-my $n=1;
-my @forms;
-foreach my $form ($mech->forms) {
-    if ($form->method() eq "POST") {
-        my $input = $form->find_input('go');
-        if ($input && $input->value() eq "renew") {
-            push @forms, $n;
+my $page = 1;
+# loop thru all pages
+while (1) {
+    # look for all listings with a renew button
+    my $n=1;
+    my @forms;
+    foreach my $form ($mech->forms) {
+        if ($form->method() eq "POST") {
+            my $input = $form->find_input('go');
+            if ($input && $input->value() eq "renew") {
+                push @forms, $n;
+            }
         }
+        $n++;
     }
-    $n++;
-}
 
-foreach my $form_id (@forms) {
-    # click the renew button
-    my $form = $mech->form_number($form_id);
-    $mech->submit_form();
-    if ($mech->content() =~  /Your posting can be seen at/) {
-        # fetch the title and link of the confirmation page
-        my $title=""; my $link="";
-        my $root = HTML::TreeBuilder->new_from_content($mech->content());
-        my @t = $root->look_down('_tag' => 'span', 'class' => 'postingtitletext');
-        my @l = $root->look_down('_tag' => 'div', 'class' => 'managestatus')->look_down('_tag' => 'a', 'target' => '_blank');
-        if (@t) {
-            $title = $t[0]->as_trimmed_text();
-        }
-        if (@l) {
-            $link = $l[0]->attr('href');
-        }
+    foreach my $form_id (@forms) {
+        # click the renew button
+        my $form = $mech->form_number($form_id);
+        $mech->submit_form();
+        if ($mech->content() =~  /Your posting can be seen at/) {
+            # fetch the title and link of the confirmation page
+            my $title=""; my $link="";
+            my $root = HTML::TreeBuilder->new_from_content($mech->content());
+            my @t = $root->look_down('_tag' => 'span', 'class' => 'postingtitletext');
+            my @l = $root->look_down('_tag' => 'div', 'class' => 'managestatus')->look_down('_tag' => 'a', 'target' => '_blank');
+            if (@t) {
+                $title = $t[0]->as_trimmed_text();
+            }
+            if (@l) {
+                $link = $l[0]->attr('href');
+            }
 
-        notify("Renewed \"$title\" (" . $link . ")");
-        $renewed++;
+            notify("Renewed \"$title\" (" . $link . ")");
+            $renewed++;
+        }
+        else {
+            notify("Could not renew post - " . $form->action );
+        }
+        $mech->back();
+
+        # only renew the first posting unless renew_all is specified
+        last unless $config->{renew_all};
+    }
+
+    $page = $page + 1;
+    # if there is another page, go there
+    if ($page > 5) {
+        # don't go past 5 pages (maybe add config option for this later)
+        last;
+    }
+    elsif ($mech->find_link(text=>$page)) {
+        $mech->follow_link(text=>$page);
     }
     else {
-        notify("Could not renew post - " . $form->action );
+        last;
     }
-    $mech->back();
 
-    # only renew the first posting unless renew_all is specified
-    last unless $config->{renew_all};
-}
+} # end while
 
 # print message in interactive mode or send email when run from cron
 sub notify {
