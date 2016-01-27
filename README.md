@@ -13,6 +13,7 @@ Only perl is necessary plus the following non-default modules, which you can dow
 * `YAML`
 * `List::MoreUtils`
 * `File::Slurp`
+* `Mozilla::CA`
 
 
 Usage
