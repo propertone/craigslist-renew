@@ -40,7 +40,8 @@ $mech->submit_form(
         }
     );
 
-# once in a while, Craigslist verifies the login via Captcha, but this code is broken and fires everytime.
+# once in a while, Craigslist verifies the login via Captcha, but this code is broken and fires everytime. -cal
+
 #$mech->quiet(1);
 #if ($mech->form_with_fields('inputEmailHandle', 'inputPassword')) {
 #    notify("Login failed - requires captcha");
@@ -48,7 +49,7 @@ $mech->submit_form(
 #}
 # $mech->quiet(0);
 
-# filter active posts only
+# filter active posts only, this code is also broken as the link 'active' is not found on the page -cal
 # $mech->follow_link(text=>"active");
 
 # if --expired flag was specified, check for expired posts
