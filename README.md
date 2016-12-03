@@ -17,7 +17,7 @@ Only perl is necessary plus the following non-default modules, which you can dow
 
 Installing Dependencies
 -----
-Install dependencies on debian-based distros, in terminal:
+To install dependencies on debian-based distros, copy/paste the following in terminal:
 
 * `sudo apt install libhttp-server-simple-perl libwww-mechanize-perl libxml-treebuilder-perl libxml-catalog-perl libmime-lite-perl libhtml-tableextract-perl libfile-slurp-perl libemail-date-format-perl firefox-globalmenu`
 
