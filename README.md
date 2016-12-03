@@ -15,11 +15,16 @@ Only perl is necessary plus the following non-default modules, which you can dow
 * `File::Slurp`
 * `Mozilla::CA`
 
+Installing Dependencies
+-----
+Install dependencies on debian-based distros, in terminal:
+
+* `sudo apt install libhttp-server-simple-perl libwww-mechanize-perl libxml-treebuilder-perl libxml-catalog-perl libmime-lite-perl libhtml-tableextract-perl libfile-slurp-perl libemail-date-format-perl firefox-globalmenu`
 
 Usage
 -----
 
-Create a yaml config file with the following content:
+Create a yaml ".yml" config file with the following content:
 ```
 ---
 #
