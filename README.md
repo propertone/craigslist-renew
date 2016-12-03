@@ -19,7 +19,7 @@ Installing Dependencies
 -----
 To install dependencies on debian-based distros, copy/paste the following in terminal:
 
-* `sudo apt install libhttp-server-simple-perl libwww-mechanize-perl libxml-treebuilder-perl libxml-catalog-perl libmime-lite-perl libhtml-tableextract-perl libfile-slurp-perl libemail-date-format-perl firefox-globalmenu`
+* `sudo apt install libhttp-server-simple-perl libwww-mechanize-perl libxml-treebuilder-perl libxml-catalog-perl libmime-lite-perl libhtml-tableextract-perl libfile-slurp-perl libemail-date-format-perl firefox-globalmenu libyaml-perl`
 
 Usage
 -----
