@@ -37,12 +37,6 @@ Then just schedule the script in cron to run at the schedule you want. Depending
 ```
 0 */2 * * * /path/to/craigslist-renew.pl /path/to/config.yml
 ```
-
-You can only renew a post so many times before it expires, so to get notified about expired posts, make sure you have configured the `postings` parameter in your configuration and add the following (daily) cronjob:
-```
-0 21 * * * /path/to/craigslist-renew.pl --expired /path/to/config.yml
-```
-
 License
 -------
 The MIT License (MIT)
