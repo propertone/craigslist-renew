@@ -24,31 +24,10 @@ To install dependencies on debian-based distros, copy/paste the following in ter
 Usage
 -----
 
-Fill out the "config.yml" file with the following content:
+Fill out the "config.yml" file with your craigslist credentials, and select the options you wish to use:
 ```
 ---
-#
-# Required parameters
-#
-email: <craigslist login>
-password: <craigslist password>
-notify: <comma separated list of emails>
-#
-# Optional parameters
-#
-# set to 1 to suppress notification emails on renewal
-no_success_mail: <1|0>
-# set to 1 to renew all posts available for renewal
-# By default, only the first expired post gets renewed on each run
-renew_all: <1|0>
-# specify path for logging actions taken
-logfile: <~/craigslist-renew/logs/>
-# specify the list of your current postings for expiration notifications
-postings:
-  - title: My post
-    area: nyc
-  - title: Another post
-    area: nyc
+
 ```
 
 Then just schedule the script in cron to run at the schedule you want. Depending on the category and location, craigslist posts can be renewed about once every few days, so running the script every few hours should be more than sufficient:
