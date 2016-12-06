@@ -37,7 +37,8 @@ Then just schedule the script in cron to run at the schedule you want. Depending
 ```
 0 */2 * * * /path/to/craigslist-renew.pl /path/to/config.yml
 ```
-License
+Licenses
 -------
-M.I.T. Copyright (c) 2014 Vitaly Shupak <vitaly.shupak@gmail.com>  
-CCA-4.0 2017 https://github.com/calexil
+M.I.T. Copyright (c) 2014 Vitaly Shupak <vitaly.shupak@gmail.com>
+
+[CCA-4.0 2017](https://creativecommons.org/licenses/by-sa/4.0/) https://github.com/calexil
