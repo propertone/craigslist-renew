@@ -24,7 +24,7 @@ To install dependencies on debian-based distros, copy/paste the following in ter
 Usage
 -----
 
-Fil out the "config.yml" file with the following content:
+Fill out the "config.yml" file with the following content:
 ```
 ---
 #
