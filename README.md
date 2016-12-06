@@ -28,7 +28,7 @@ Fill out the "config.yml" file with your craigslist credentials, and select the 
 
 Then run the script from within the cloned directory with :
 
-* `perl craigslist-renew.pl --expired config.yml`
+* `perl craigslist-renew.pl  config.yml`
 
 Scheduling
 -----
