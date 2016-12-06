@@ -19,12 +19,12 @@ Installing Dependencies
 -----
 To install dependencies on debian-based distros, copy/paste the following in terminal:
 
-* `sudo apt install libhttp-server-simple-perl libwww-mechanize-perl libxml-treebuilder-perl libxml-catalog-perl libmime-lite-perl libhtml-tableextract-perl libfile-slurp-perl libemail-date-format-perl firefox-globalmenu libyaml-perl`
+* `sudo apt install libhttp-server-simple-perl libwww-mechanize-perl libxml-treebuilder-perl libxml-catalog-perl libmime-lite-perl libhtml-tableextract-perl libfile-slurp-perl libemail-date-format-perl libyaml-perl`
 
 Usage
 -----
 
-Create a yaml ".yml" config file with the following content:
+Fil out the "config.yml" file with the following content:
 ```
 ---
 #
@@ -42,7 +42,7 @@ no_success_mail: <1|0>
 # By default, only the first expired post gets renewed on each run
 renew_all: <1|0>
 # specify path for logging actions taken
-logfile: <path-to-logfile>
+logfile: <~/craigslist-renew/logs/>
 # specify the list of your current postings for expiration notifications
 postings:
   - title: My post
