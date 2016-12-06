@@ -39,4 +39,5 @@ Then just schedule the script in cron to run at the schedule you want. Depending
 ```
 License
 -------
+M.I.T. Copyright (c) 2014 Vitaly Shupak <vitaly.shupak@gmail.com>
 CCA-4.0 2017 https://github.com/calexil
