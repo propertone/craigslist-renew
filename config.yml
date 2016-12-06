@@ -13,7 +13,7 @@ no_success_mail: <1|0>
 # By default, only the first expired post gets renewed on each run
 renew_all: <1|0>
 # specify path for logging actions taken
-logfile: <~/craigslist-renew/renewlogs/>
+logfile: <~/craigslist-renew/logs/>
 # specify the list of your current postings for expiration notifications
 postings:
   - title: My post

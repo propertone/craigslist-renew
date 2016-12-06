@@ -1,6 +1,6 @@
 # craigslist-renew
 
-This is a simple perl script that will auto-renew all your inactive Craigslist posts. It can also notify you when a post expires.
+This is a simple perl script that will auto-renew all your inactive Craigslist posts.
 
 Requirements
 ------------
@@ -25,6 +25,10 @@ Usage
 -----
 
 Fill out the "config.yml" file with your craigslist credentials, and select the options you wish to use:
+
+Then run the script from within the cloned directory with :
+
+* `perl craigslist-renew.pl --expired config.yml`
 
 Scheduling
 -----
