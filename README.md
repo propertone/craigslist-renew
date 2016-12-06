@@ -25,10 +25,9 @@ Usage
 -----
 
 Fill out the "config.yml" file with your craigslist credentials, and select the options you wish to use:
-```
----
 
-```
+Scheduling
+-----
 
 Then just schedule the script in cron to run at the schedule you want. Depending on the category and location, craigslist posts can be renewed about once every few days, so running the script every few hours should be more than sufficient:
 ```
