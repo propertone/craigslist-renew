@@ -2,9 +2,13 @@
 # This script logs in to your craigslist account and renews all posts that can be renewed
 # The script should be invoked with a config file in yaml format containing the following info:
 # ---
+#
+# Required parameters
+#
 # email: <craigslist login>
 # password: <craigslist password>
 # notify: <comma separated list of emails>
+
 
 use strict;
 use warnings;
@@ -40,24 +44,11 @@ $mech->submit_form(
         }
     );
 
-# once in a while, Craigslist verifies the login via Captcha, but this code is broken and fires everytime. -calexil
-
-#$mech->quiet(1);
-#if ($mech->form_with_fields('inputEmailHandle', 'inputPassword')) {
-#    notify("Login failed - requires captcha");
-#    exit(1);
-#}
-# $mech->quiet(0);
 
 # filter active posts only, this code is also broken as the link 'active' is not found on the page -calexil
-# $mech->follow_link(text=>"active");
 
-# if --expired flag was specified, check for expired posts
-if ($check_expired) {
-    $SUBJECT = "Craigslist post expired";
-    check_expired($mech->content);
-    exit(0);
-}
+$mech->follow_link( url_regex => qr/active/i );
+
 
 my $page = 1;
 # loop thru all pages
@@ -106,7 +97,7 @@ while (1) {
 
     $page = $page + 1;
     # if there is another page, go there
-    if ($page > 5) {
+    if ($page > 10) {
         # don't go past 5 pages (maybe add config option for this later)
         last;
     }
@@ -144,44 +135,4 @@ sub notify {
     }
 }
 
-# the config file can list postings that should currently be active. This is specified in the config as:
-# required:
-#   - title: My Posting
-#     area: nyc
-#   - title: Another posting
-#     area: nyc
-sub check_expired {
-    my ($content) = @_;
-    my @columns = qw( status manage title area date id );
-    my $te = HTML::TableExtract->new(headers=>\@columns);
-    $te->parse($content);
-    my @tables = $te->tables;
-    my $ts = $tables[0];
-
-    my $required = $config->{'postings'};
-    foreach my $row ($ts->rows) {
-        map {s/^\s*//gm;s/\s*$//gm;s/\n//g;} @$row;
-        my %info = zip @columns, @$row;
-        if ($info{'status'} =~ /active/i) {
-            # check if this posting matches one of the required postings
-            # if so, mark it as active in the required hash
-            foreach my $posting (@$required) {
-                my $title = $posting->{'title'};
-                my $area = $posting->{'area'} // "";
-                if ($info{'title'} =~ /$title/i and $info{'area'} =~ /$area/i) {
-                    $posting->{'active'} = 1;
-                }
-            }
-        }
-    }
-    my @expired = ();
-    foreach my $posting (@$required) {
-        if (!defined($posting->{'active'})) {
-            push @expired, $posting->{'title'} . ' (' . $posting->{'area'} . ')';
-        }
-    }
-    if (@expired) {
-        my $msg = "The following posts have expired:\n\n" . join("\n", @expired);
-        notify($msg);
-    }
-}
+# EOF
