@@ -47,7 +47,7 @@ $mech->submit_form(
 
 # filter active posts only, this code is also broken as the link 'active' is not found on the page -calexil
 
-$mech->follow_link( url_regex => qr/all/i );
+$mech->follow_link(url_regex => qr/all/i);
 
 
 my $page = 1;
