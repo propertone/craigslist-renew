@@ -49,7 +49,8 @@ if ($mech->form_with_fields('inputEmailHandle', 'inputPassword')) {
 $mech->quiet(0);
 
 # filter active posts only
-$mech->follow_link(text=>"active");
+$mech->form_id("account-homepage-form");
+$mech->click_button(value=>"active");
 
 # if --expired flag was specified, check for expired posts
 if ($check_expired) {
@@ -78,7 +79,7 @@ while (1) {
         # click the renew button
         my $form = $mech->form_number($form_id);
         $mech->submit_form();
-        if ($mech->content() =~  /Your posting can be seen at/) {
+        if ($mech->content() =~  /This posting has been renewed/) {
             # fetch the title and link of the confirmation page
             my $title=""; my $link="";
             my $root = HTML::TreeBuilder->new_from_content($mech->content());
