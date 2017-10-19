@@ -9,9 +9,7 @@
 use strict;
 use warnings;
 use WWW::Mechanize;
-use Data::Dumper;
 use MIME::Lite;
-use HTML::TreeBuilder;
 use HTML::TableExtract;
 use Getopt::Long;
 use YAML qw( LoadFile );

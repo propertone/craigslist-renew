@@ -8,7 +8,6 @@ Only perl is necessary plus the following non-default modules, which you can dow
 
 * `WWW::Mechanize`
 * `MIME::Lite`
-* `HTML::TreeBuilder`
 * `HTML::TableExtract`
 * `YAML`
 * `List::MoreUtils`
