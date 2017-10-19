@@ -163,7 +163,7 @@ sub check_expired {
             foreach my $posting (@$required) {
                 my $title = $posting->{'title'};
                 my $area = $posting->{'area'} // "";
-                if ($info{'title'} =~ /$title/i and $info{'area'} =~ /$area/i) {
+                if ($info{'title'} =~ /\Q$title/i and $info{'area'} =~ /$area/i) {
                     $posting->{'active'} = 1;
                 }
             }
