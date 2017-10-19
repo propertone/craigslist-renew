@@ -27,6 +27,7 @@ defined($ARGV[0]) || die("Usage: $0 [--expired] <config.yml>\n");
 
 my $config = LoadFile($ARGV[0]);
 my $NOTIFY = $config->{notify};
+my $FROM = $config->{from};
 my $SUBJECT = "Craigslist Automatic Renewal";
 my $url = "https://accounts.craigslist.org/login";
 
@@ -136,6 +137,7 @@ sub notify {
     }
     elsif (!$config->{'no_success_mail'} || $check_expired) {
         my $msg = MIME::Lite->new(
+                    From    => $FROM,
                     To      => $NOTIFY,
                     Subject => $SUBJECT,
                     Data    => $message,

@@ -28,6 +28,7 @@ Create a yaml config file with the following content:
 email: <craigslist login>
 password: <craigslist password>
 notify: <comma separated list of emails>
+from: <from email address>
 #
 # Optional parameters
 #
