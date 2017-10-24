@@ -27,10 +27,11 @@ Create a yaml config file with the following content:
 email: <craigslist login>
 password: <craigslist password>
 notify: <comma separated list of emails>
-from: <from email address>
 #
 # Optional parameters
 #
+# specify sender email address
+from: <sender email address>
 # set to 1 to suppress notification emails on renewal
 no_success_mail: <1|0>
 # set to 1 to renew all posts available for renewal
