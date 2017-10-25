@@ -9,9 +9,7 @@
 use strict;
 use warnings;
 use WWW::Mechanize;
-use Data::Dumper;
 use MIME::Lite;
-use HTML::TreeBuilder;
 use HTML::TableExtract;
 use Getopt::Long;
 use YAML qw( LoadFile );
@@ -76,23 +74,16 @@ while (1) {
     }
 
     foreach my $form_id (@forms) {
-        # click the renew button
         my $form = $mech->form_number($form_id);
+
+        # fetch posting link
+        my $postid = (split('/', $form->action()))[-1];
+        my $link = $mech->find_link(url_regex => qr/$postid\.html/);
+
+        # click the renew button
         $mech->submit_form();
         if ($mech->content() =~  /This posting has been renewed/) {
-            # fetch the title and link of the confirmation page
-            my $title=""; my $link="";
-            my $root = HTML::TreeBuilder->new_from_content($mech->content());
-            my @t = $root->look_down('_tag' => 'span', 'class' => 'postingtitletext');
-            my @l = $root->look_down('_tag' => 'div', 'class' => 'managestatus')->look_down('_tag' => 'a', 'target' => '_blank');
-            if (@t) {
-                $title = $t[0]->as_trimmed_text();
-            }
-            if (@l) {
-                $link = $l[0]->attr('href');
-            }
-
-            notify("Renewed \"$title\" (" . $link . ")");
+            notify("Renewed \"" . $link->text() . "\" (" . $link->url() . ")");
             $renewed++;
         }
         else {
@@ -140,6 +131,9 @@ sub notify {
                     Subject => $SUBJECT,
                     Data    => $message,
                     );
+        if ($config->{from}) {
+            $msg->add(From => $config->{from});
+        }
         $msg->send;
     }
 }
@@ -168,7 +162,7 @@ sub check_expired {
             foreach my $posting (@$required) {
                 my $title = $posting->{'title'};
                 my $area = $posting->{'area'} // "";
-                if ($info{'title'} =~ /$title/i and $info{'area'} =~ /$area/i) {
+                if ($info{'title'} =~ /\Q$title/i and $info{'area'} =~ /$area/i) {
                     $posting->{'active'} = 1;
                 }
             }

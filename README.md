@@ -8,7 +8,6 @@ Only perl is necessary plus the following non-default modules, which you can dow
 
 * `WWW::Mechanize`
 * `MIME::Lite`
-* `HTML::TreeBuilder`
 * `HTML::TableExtract`
 * `YAML`
 * `List::MoreUtils`
@@ -31,6 +30,8 @@ notify: <comma separated list of emails>
 #
 # Optional parameters
 #
+# specify sender email address
+from: <sender email address>
 # set to 1 to suppress notification emails on renewal
 no_success_mail: <1|0>
 # set to 1 to renew all posts available for renewal
