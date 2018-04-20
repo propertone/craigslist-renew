@@ -13,6 +13,7 @@ Only perl is necessary plus the following non-default modules, which you can dow
 * `List::MoreUtils`
 * `File::Slurp`
 * `Mozilla::CA`
+* `LWP::Protocol::https`
 
 
 Usage
@@ -56,6 +57,45 @@ You can only renew a post so many times before it expires, so to get notified ab
 ```
 0 21 * * * /path/to/craigslist-renew.pl --expired /path/to/config.yml
 ```
+
+Docker usage
+------------
+To avoid installing a perl environment with all its dependencies you can run this script in a Docker container.
+
+WARNING: email notifications are not tested with this Docker container.
+
+### Pre-requirements:
+To have it working you need to map two files into the container:
+
+- `/tmp/craigslist-renew.yml` config file (required)
+- `/tmp/craigslist-renew.log` log file (optional)
+
+### Running it:
+```
+# Build container
+make docker-build
+# Alternatively
+docker build -t craigslist-renew .
+
+# Execute craigslist-renew.pl without --expired flag (default)
+#     The logfile mapping is optional can can be left alone
+docker run \
+    --rm -it \
+    -v "/path/to/craigslist-renew.yml:/tmp/craigslist-renew.yml:ro" \
+    -v "/path/to/logfile.log:/tmp/craigslist-renew.log" \
+    craigslist-renew
+
+# Execute craigslist-renew.pl with the --expired flag
+#     The logfile mapping is optional can can be left alone
+docker run \
+    --rm -it \
+    -v "/path/to/craigslist-renew.yml:/tmp/craigslist-renew.yml:ro" \
+    -v "/path/to/logfile.log:/tmp/craigslist-renew.log" \
+    --entrypoint /usr/bin/perl \
+    craigslist-renew \
+        ./craigslist-renew.pl --expired /tmp/craigslist-renew.yml
+```
+
 
 License
 -------
